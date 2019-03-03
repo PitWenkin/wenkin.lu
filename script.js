@@ -1,9 +1,5 @@
 var colorThief = undefined;
 OLEFA.registerModule('site-custom', function (resolve, reject) {
-  var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
-  if (isIE11) {
-    OLEFA.snackbar.show({message: "Däi Browser ass leider ze al, a wäert dës Säit net richteg duerstellen."});
-  };
   jQuery('div#fieldset select').each(function(){
     var label = jQuery(this).siblings('label[for="'+this.id+'"]');
     var text = label.text();
@@ -24,17 +20,39 @@ OLEFA.registerModule('site-custom', function (resolve, reject) {
       var ova = jQuery(this);
       var ov = ova.data('volume');
       if (ov == v-1) {
-        ova.text('Vireschte Band: '+ova.text());
+        ova.text(jQuery('#previousband').val()+': '+ova.text());
         ova.addClass('previous');
       }
       if (ov == v+1) {
-        ova.text('NÃ¤chste Band: '+ova.text());
+        ova.text(jQuery('#nextband').val()+': '+ova.text());
         ova.addClass('next');
       }
     });
   };
 });
-
+var $buoop = {
+  required:{
+    e:-4,
+    i:12,
+    f:-5,
+    o:-3,
+    s:-1,
+    c:-5
+  },
+  insecure:true,
+  api:2019.03,
+  nomessage: true,
+  onshow: function(infos){
+    OLEFA.snackbar.show({message: jQuery('#oldbrowser').val()});
+  }
+}; 
+function $buo_f(){ 
+  var e = document.createElement("script"); 
+  e.src = "//browser-update.org/update.min.js"; 
+  document.body.appendChild(e);
+};
+try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+catch(e){window.attachEvent("onload", $buo_f)}
 function bgColor(li) {
   var palette = colorThief.getPalette(jQuery(li).find('img') [0], 2);
   if (palette) {
