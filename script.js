@@ -20,15 +20,23 @@ OLEFA.registerModule('site-custom', function (resolve, reject) {
       var ova = jQuery(this);
       var ov = ova.data('volume');
       if (ov == v-1) {
-        ova.text(jQuery('#previousband').val()+': '+ova.text());
+        ova.text(previousband+': '+ova.text());
         ova.addClass('previous');
       }
       if (ov == v+1) {
-        ova.text(jQuery('#nextband').val()+': '+ova.text());
+        ova.text(nextband+': '+ova.text());
         ova.addClass('next');
       }
     });
   };
+  jQuery(document).on('olefa-baselist-load', function(e, data) {
+    jQuery(document).off('olefa-baselist-load');
+    jQuery(document).on('olefa-baselist-load', function(e, data) {
+      if (data.json.counter == 0) {
+         OLEFA.snackbar.show({message: OLEFA.i18n.get('nothing_found')});
+      }
+    });
+  });
 });
 var $buoop = {
   required:{
@@ -43,7 +51,7 @@ var $buoop = {
   api:2019.03,
   nomessage: true,
   onshow: function(infos){
-    OLEFA.snackbar.show({message: jQuery('#oldbrowser').val()});
+    OLEFA.snackbar.show({message: oldbrowser});
   }
 }; 
 function $buo_f(){ 
@@ -53,6 +61,7 @@ function $buo_f(){
 };
 try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
 catch(e){window.attachEvent("onload", $buo_f)}
+
 function bgColor(li) {
   var palette = colorThief.getPalette(jQuery(li).find('img') [0], 2);
   if (palette) {
